@@ -23,9 +23,9 @@ def create_category(db: Session, cat_eng, cat_spa):
 
 def create_category_bulk(db: Session, categories: list[schemas.CategoryBase]):
     db_cats = models.Category()
-    # db.add(db_cats)
-    # db.commit()
-    # db.refresh(db_cats)
+    db.add(db_cats)
+    db.commit()
+    db.refresh(db_cats)
     return db_cats
 
 
