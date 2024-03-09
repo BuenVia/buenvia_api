@@ -1,0 +1,4 @@
+.venv
+buenvia.db
+__pycache__
+.env
