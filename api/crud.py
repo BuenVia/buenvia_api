@@ -44,15 +44,19 @@ def delete_category(db: Session, cat_id):
 
 
 def read_words(db: Session):
-    pass
+    return db.query(models.Word).all()
 
 
 def get_single_word(db: Session):
     pass
 
 
-def create_word(db: Session):
-    pass
+def create_word(db: Session, word_eng, word_spa, cat_id):
+    db_cat = models.Word(word_eng=word_eng, word_spa=word_spa, cat_id=cat_id)
+    db.add(db_cat)
+    db.commit()
+    db.refresh(db_cat)
+    return db_cat
 
 
 def update_word(db: Session):

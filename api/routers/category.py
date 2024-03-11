@@ -46,7 +46,7 @@ def post_category_bulk(categories: list[schemas.CategoryBase], db: Session = Dep
 
 
 @router.put("/categories/{cat_id}")
-def put_category(cat_id, category: schemas.CategoryModel, db: Session = Depends(get_db)):
+def put_category(cat_id, category: schemas.CategoryBase, db: Session = Depends(get_db)):
     category = crud.update_category(cat_id=cat_id, category=category, db=db)
     return category
 
