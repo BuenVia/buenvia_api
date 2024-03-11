@@ -22,11 +22,10 @@ def create_category(db: Session, cat_eng, cat_spa):
 
 
 def create_category_bulk(db: Session, categories: list[schemas.CategoryBase]):
-    db_cats = models.Category()
-    db.add(db_cats)
+    for cats in categories:
+        db.add(models.Category(cat_eng=cats.cat_eng, cat_spa=cats.cat_spa))
     db.commit()
-    db.refresh(db_cats)
-    return db_cats
+    return "done"
 
 
 def update_category(db: Session, category, cat_id):
