@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Response
 from sqlalchemy.orm import Session
 
 from .. import crud, models
@@ -51,4 +51,4 @@ def update_word(word_id, word: schemas.WordBase, db: Session = Depends(get_db)):
 @router.delete("/words/{word_id}")
 def delete_word(word_id, db: Session = Depends(get_db)):
     result = crud.delete_word(word_id=word_id, db=db)
-    return result
+    return Response(status_code=200,content="Success")
