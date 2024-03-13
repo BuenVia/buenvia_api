@@ -73,6 +73,7 @@ def delete_word(db: Session):
     pass
 
 
+# Return all words from a specific category
 def get_words_category(db: Session, cat_id):
     result = db.query(models.Category).join(models.Word).filter(models.Word.cat_id == cat_id).all()
     for row in result:
