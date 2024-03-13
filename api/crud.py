@@ -58,6 +58,12 @@ def create_word(db: Session, word_eng, word_spa, cat_id):
     db.refresh(db_cat)
     return db_cat
 
+def create_words_bulk(db: Session, words: list[schemas.WordBase]):
+    for word in words:
+        db.add(models.Word(word_eng=word.word_eng, word_spa=word.word_spa, cat_id=word.cat_id))
+    db.commit()
+    return "done"
+
 
 def update_word(db: Session):
     pass
@@ -65,3 +71,12 @@ def update_word(db: Session):
 
 def delete_word(db: Session):
     pass
+
+
+def get_words_category(db: Session, cat_id):
+    result = db.query(models.Category).join(models.Word).filter(models.Word.cat_id == cat_id).all()
+    for row in result:
+        for word in row.words:
+            continue
+            
+    return result

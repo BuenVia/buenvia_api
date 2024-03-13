@@ -27,6 +27,11 @@ def get_all_words(db: Session = Depends(get_db)):
 
 
 @router.post("/words", response_model=schemas.WordModel)
-def create_single_word(word: schemas.WordBase, db: Session = Depends(get_db)):
+def post_single_word(word: schemas.WordBase, db: Session = Depends(get_db)):
     return crud.create_word(db=db, word_eng=word.word_eng, word_spa=word.word_spa, cat_id=word.cat_id)
 
+
+@router.post("/words/bulk")
+def post_word_bulk(words: list[schemas.WordBase], db: Session = Depends(get_db)):
+    bulk_import = crud.create_words_bulk(words=words, db=db)
+    return bulk_import

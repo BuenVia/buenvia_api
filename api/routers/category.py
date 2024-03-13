@@ -58,3 +58,8 @@ def delete_category(cat_id, db: Session = Depends(get_db)):
         return f"Deleted {cat_id}"
     except Exception:
         raise HTTPException(status_code=404, detail="Category doesn't exist")
+
+@router.get("/category/{cat_id}")
+def get_words_category(cat_id, db: Session = Depends(get_db)):
+    result = crud.get_words_category(cat_id=cat_id, db=db)
+    return result
