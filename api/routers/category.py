@@ -63,3 +63,4 @@ def delete_category(cat_id, db: Session = Depends(get_db)):
 def get_words_category(cat_id, db: Session = Depends(get_db)):
     result = crud.get_words_category(cat_id=cat_id, db=db)
     return result
+

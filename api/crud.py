@@ -47,8 +47,8 @@ def read_words(db: Session):
     return db.query(models.Word).all()
 
 
-def get_single_word(db: Session):
-    pass
+def get_single_word(word_id, db: Session):
+    return db.query(models.Word).get(word_id)
 
 
 def create_word(db: Session, word_eng, word_spa, cat_id):
@@ -65,12 +65,19 @@ def create_words_bulk(db: Session, words: list[schemas.WordBase]):
     return "done"
 
 
-def update_word(db: Session):
-    pass
+def update_word(word_id, word: schemas.WordBase, db: Session):
+    db_word = db.query(models.Word).get(word_id)
+    db_word.word_eng = word.word_eng
+    db_word.word_spa = word.word_spa
+    db.commit()
+    db.refresh(db_word)
+    return db_word
 
 
-def delete_word(db: Session):
-    pass
+def delete_word(word_id, db: Session):
+    word = db.query(models.Word).get(word_id)
+    db.delete(word)
+    db.commit()
 
 
 # Return all words from a specific category

@@ -26,6 +26,11 @@ def get_all_words(db: Session = Depends(get_db)):
     return words
 
 
+@router.get("/words/{word_id}", response_model=schemas.WordModel)
+def get_single_word(word_id, db: Session = Depends(get_db)):
+    return crud.get_single_word(word_id=word_id, db=db)
+
+
 @router.post("/words", response_model=schemas.WordModel)
 def post_single_word(word: schemas.WordBase, db: Session = Depends(get_db)):
     return crud.create_word(db=db, word_eng=word.word_eng, word_spa=word.word_spa, cat_id=word.cat_id)
@@ -35,3 +40,15 @@ def post_single_word(word: schemas.WordBase, db: Session = Depends(get_db)):
 def post_word_bulk(words: list[schemas.WordBase], db: Session = Depends(get_db)):
     bulk_import = crud.create_words_bulk(words=words, db=db)
     return bulk_import
+
+
+@router.put("/words/{word_id}")
+def update_word(word_id, word: schemas.WordBase, db: Session = Depends(get_db)):
+    word = crud.update_word(word_id=word_id, word=word, db=db)
+    return word
+
+
+@router.delete("/words/{word_id}")
+def delete_word(word_id, db: Session = Depends(get_db)):
+    result = crud.delete_word(word_id=word_id, db=db)
+    return result
