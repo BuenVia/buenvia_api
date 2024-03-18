@@ -44,20 +44,47 @@ def delete_category(db: Session, cat_id):
 
 
 def read_words(db: Session):
-    pass
+    return db.query(models.Word).all()
 
 
-def get_single_word(db: Session):
-    pass
+def get_single_word(word_id, db: Session):
+    return db.query(models.Word).get(word_id)
 
 
-def create_word(db: Session):
-    pass
+def create_word(db: Session, word_eng, word_spa, cat_id):
+    db_cat = models.Word(word_eng=word_eng, word_spa=word_spa, cat_id=cat_id)
+    db.add(db_cat)
+    db.commit()
+    db.refresh(db_cat)
+    return db_cat
+
+def create_words_bulk(db: Session, words: list[schemas.WordBase]):
+    for word in words:
+        db.add(models.Word(word_eng=word.word_eng, word_spa=word.word_spa, cat_id=word.cat_id))
+    db.commit()
+    return "done"
 
 
-def update_word(db: Session):
-    pass
+def update_word(word_id, word: schemas.WordBase, db: Session):
+    db_word = db.query(models.Word).get(word_id)
+    db_word.word_eng = word.word_eng
+    db_word.word_spa = word.word_spa
+    db.commit()
+    db.refresh(db_word)
+    return db_word
 
 
-def delete_word(db: Session):
-    pass
+def delete_word(word_id, db: Session):
+    word = db.query(models.Word).get(word_id)
+    db.delete(word)
+    db.commit()
+
+
+# Return all words from a specific category
+def get_words_category(db: Session, cat_id):
+    result = db.query(models.Category).join(models.Word).filter(models.Word.cat_id == cat_id).all()
+    for row in result:
+        for word in row.words:
+            continue
+            
+    return result
